@@ -25,10 +25,10 @@ $$\gamma = \sum_{1\leq n<2^{\ell-1}}n^{-1} - (\ell-1)\log 2 + \sum_{m=1}^\infty
 The numerical implementation
 ============================
 
-It is done using Python ``mpmath``.  The recurrence has a total cost to reach
-a given number of terms which appears to be at least quadratic, so the method
-is not competitive for high precision but probably fine for up to a few
-hundreds decimal digits.
+It is done using Python's `mpmath <https://mpmath.org>`_.  The recurrence has
+a total cost to reach a given number of terms which appears to be at least
+quadratic, so the method is not competitive for high precision but probably
+fine for up to a few hundreds decimal digits.
 
 In https://arxiv.org/abs/2603.29998 I said that ``ell=4`` or ``ell=5`` were
 probably best but actually I obtained here for ``1000`` decimal digits the
