@@ -64,8 +64,17 @@ References
 
 The first listed paper gives the proof for $\ell\geq2$.  The case $\ell = 1$
 is not interesting numerically and requires a separate discussion which was
-omitted from the paper. (Do not use ``ell=1`` with the script, it will take
-ages to terminate already with ``N==2`` (untested)).
+omitted from the paper.
+
+.. caution::
+
+   Do not use ``ell=1`` with the script, it will take ages to terminate
+   already with ``N==1``, as the terminating criterion is (roughly, as it is
+   binary not decimal) when the term becomes less than ``10**(-N-3)``, in fact
+   here it will compare with ``2**(-14)``, and as the series with $\ell=1$
+   behaves about as the alternating series with terms $\log n/n$, the script
+   will try to compute more than ``16000`` $e_m$ values, and there is the
+   quadratic cost I mentioned.
 
 The proof relies on the result of the third paper which itself depends on a
 result proven in the fourth paper.  The second paper is quoted only to
