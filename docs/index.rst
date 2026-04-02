@@ -25,18 +25,19 @@ $$\gamma = \sum_{1\leq n<2^{\ell-1}}n^{-1} - (\ell-1)\log 2 + \sum_{m=1}^\infty
 The numerical implementation
 ============================
 
-It is done using Python ``mpmath``.  The recurrence has a at least a total
-quadratic cost to reach a given number of terms, so the method is not
-competitive for high precison but probably fine for up to a few hundreds
-decimal digits.
+It is done using Python ``mpmath``.  The recurrence has a total cost to reach
+a given number of terms which appears to be at least quadratic, so the method
+is not competitive for high precision but probably fine for up to a few
+hundreds decimal digits.
 
 In https://arxiv.org/abs/2603.29998 I said that ``ell=4`` or ``ell=5`` were
 probably best but actually I obtained here for ``1000`` decimal digits the
 fastest run time using ``ell=8``.  So it is the value used by default by the
-script.  Note that the script is not designed for returning a value for
-further computations as ``mpmath`` naturally has its own more efficient lazy
-constant ``euler``.  It simply prints out the computed value and some extra
-info.
+script.
+
+The script is not designed for returning a value for further computations as
+``mpmath`` naturally has its own more efficient lazy constant ``euler``.  It
+simply prints out the computed value and some extra info.
 
 .. code-block:: console
 
@@ -61,9 +62,10 @@ info.
 References
 ==========
 
-The first paper gives the proof of the above for $\ell\geq2$, the $\ell\geq1$
-series is slowly converging and its discussion was omitted there as it is not
-interesting numerically.
+The first listed paper gives the proof for $\ell\geq2$.  The case $\ell\geq1$
+is not interesting numerically and requires a separate discussion which was
+omitted from the paper. (Do not use ``ell=1`` with the script, it will take
+ages to terminate already with ``N==2`` (untested)).
 
 The proof relies on the result of the third paper which itself depends on a
 result proven in the fourth paper.  The second paper is quoted only to
