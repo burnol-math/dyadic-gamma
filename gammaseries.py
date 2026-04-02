@@ -12,7 +12,7 @@ __version__ = "0.1.0"
 __date__    = "2026-04-02"
 __author__  = "Jean-François Burnol"
 
-__all__ = ["foo", "__version__", "__date__", "__author__"]
+__all__ = ["gamma_ell", "__version__", "__date__", "__author__"]
 
 from math import log
 from mpmath import mp, mpf, nstr
