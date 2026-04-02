@@ -14,13 +14,13 @@ __author__  = "Jean-François Burnol"
 
 __all__ = ["foo", "__version__", "__date__", "__author__"]
 
-from mpmath import mp, mpf, log, nstr
+from math import log
+from mpmath import mp, mpf, nstr
 
 def gamma_ell(N: int, ell: int = 8) -> None:
     """Computes gamma with N decimal digits, using level ell
     """
-    log2_10 = mp.log(10) / mp.log(2)
-    P = int(N * log2_10) + 1
+    P = int(N * log(10) / log(2)) + 1
     P_threshold = P + 10
     P_max = P + 20
 
@@ -34,7 +34,7 @@ def gamma_ell(N: int, ell: int = 8) -> None:
     two_to_the_m_p_one = 2
 
     S = sum(mpf(1)/n for n in range(1, two_to_the_ell_m_one))
-    S -= (ell-1) * log(mpf(2))
+    S -= (ell-1) * mp.log(mpf(2))
 
     invpowers = [ 1/mpf(n) for n in range(two_to_the_ell_m_one, two_to_the_ell) ]
 
