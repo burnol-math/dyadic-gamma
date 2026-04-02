@@ -59,13 +59,6 @@ simply prints out the computed value and some extra info.
     not used: m = 96, |cm| = 5.538e-206
    gamma = 0.57721566490153286060651209008240243104215933593992359880576723488486772677766467093694706329174674951463144724980708248096050401448654283622417399764492353625350033374293733773767394279259525824709491(601)
 
-References
-==========
-
-The first listed paper gives the proof for $\ell\geq2$.  The case $\ell = 1$
-is not interesting numerically and requires a separate discussion which was
-omitted from the paper.
-
 .. caution::
 
    Do not use ``ell=1`` with the script, it will take ages to terminate
@@ -75,6 +68,13 @@ omitted from the paper.
    behaves about as the alternating series with terms $\log n/n$, the script
    will try to compute more than ``16000`` $e_m$ values, and there is the
    quadratic cost I mentioned.
+
+References
+==========
+
+The first listed paper gives the proof for $\ell\geq2$.  The case $\ell = 1$
+is not interesting numerically and requires a separate discussion which was
+omitted from the paper.
 
 The proof relies on the result of the third paper which itself depends on a
 result proven in the fourth paper.  The second paper is quoted only to
