@@ -47,6 +47,27 @@ Last used: m = 24, |cm| = 2.527e-53
 gamma = 0.57721566490153286060651209008240243104215933593992(360)
 ```
 
+The output gives `N` decimal digits and then 3 more within parentheses, as the
+examples above show the first omitted term should affect only beyond that and
+the parenthesized digits, but carries can of course modify them, as well as
+other rounding errors (and we do not even bother summing from smallest to
+largest, having kept about 3 more decimal guard digits with the hope it is
+enough).
+
+The file `gamma_10000+3` contains the value of gamma given by:
+
+```console
+$ python gammaseries.py 10000
+ell is 8
+Last used: m = 4744, |cm| = 5.208e-10002
+ not used: m = 4745, |cm| = 4.068e-10004
+gamma = 0.577215...
+```
+
+But the algorithm is not suited for as many decimal digits, due to the cost of
+the recurrence (see https://burnolmath.gitlab.io/dyadic-gamma for the
+underlying mathematical formula).
+
 ## References
 
 - Some geometric series for Euler's constant,
