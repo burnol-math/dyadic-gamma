@@ -10,27 +10,27 @@ Use either within some interactive session:
 $ ipython -i gammaseries.py 
 <Python and iPython banners>
 
-gamma(N[,ell]) gives gamma to N decimal digits.  Default: ell=8
+gamma_ell(N[,ell]) gives gamma to N decimal digits.  Default: ell=8
 
-In [1]: gamma(20)
+In [1]: gamma_ell(20)
 ell is 8
 Last used: m = 10, |cm| = 3.218e-23
  not used: m = 11, |cm| = 2.167e-25
 gamma = 0.57721566490153286060(651)
 
-In [2]: gamma(50)
+In [2]: gamma_ell(50)
 ell is 8
 Last used: m = 24, |cm| = 2.527e-53
  not used: m = 25, |cm| = 1.849e-55
 gamma = 0.57721566490153286060651209008240243104215933593992(360)
 
-In [3]: gamma(100)
+In [3]: gamma_ell(100)
 ell is 8
 Last used: m = 47, |cm| = 2.955e-102
  not used: m = 48, |cm| = 2.233e-104
 gamma = 0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495(147)
 
-In [4]: gamma(1000)
+In [4]: gamma_ell(1000)
 ell is 8
 Last used: m = 474, |cm| = 2.412e-1003
  not used: m = 475, |cm| = 1.880e-1005

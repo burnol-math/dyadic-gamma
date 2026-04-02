@@ -16,7 +16,7 @@ __all__ = ["foo", "__version__", "__date__", "__author__"]
 
 from mpmath import mp, mpf, log, nstr
 
-def gamma(N: int, ell: int = 8) -> None:
+def gamma_ell(N: int, ell: int = 8) -> None:
     """Computes gamma with N decimal digits, using level ell
     """
     log2_10 = mp.log(10) / mp.log(2)
@@ -94,8 +94,8 @@ def gamma(N: int, ell: int = 8) -> None:
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 2:
-        gamma(int(sys.argv[1]), int(sys.argv[2]))
+        gamma_ell(int(sys.argv[1]), int(sys.argv[2]))
     elif len(sys.argv) > 1:
-        gamma(int(sys.argv[1]))
+        gamma_ell(int(sys.argv[1]))
     else:
-        print("\ngamma(N[,ell]) gives gamma to N decimal digits.  Default: ell=8")
+        print("\ngamma_ell(N[,ell]) gives gamma to N decimal digits.  Default: ell=8")
