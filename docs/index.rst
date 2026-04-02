@@ -62,7 +62,7 @@ simply prints out the computed value and some extra info.
 References
 ==========
 
-The first listed paper gives the proof for $\ell\geq2$.  The case $\ell\geq1$
+The first listed paper gives the proof for $\ell\geq2$.  The case $\ell = 1$
 is not interesting numerically and requires a separate discussion which was
 omitted from the paper. (Do not use ``ell=1`` with the script, it will take
 ages to terminate already with ``N==2`` (untested)).
