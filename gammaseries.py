@@ -2,7 +2,13 @@
 Computation of gamma for a given target decimal precision and level
 
 Author: Jean-François Burnol
-Created: April 2, 2026
+Created: April 2, 2026 v0.1.0
+This version: April 7, 2026 v0.2.0
+
+- add silent and trunc booolean optional parameters,
+- return a string in place of printing it.
+
+TODO: should I return an object of type mpf rather?
 
 © Jean-François Burnol, 2026
 
@@ -14,21 +20,23 @@ PROPER ATTRIBUTION IS STRICTLY FORBIDDEN AND WILL GET PUNISHED
 
 """
 
-__version__ = "0.1.0"
-__date__    = "2026-04-02"
+__version__ = "0.2.0"
+__date__    = "2026-04-07"
 __author__  = "Jean-François Burnol"
 
-from math import log
+from math import log, ceil
 from mpmath import mp, mpf, nstr
 
-def gamma_ell(N: int, ell: int = 8) -> None:
+def gamma_ell(N:int, ell:int = 8, silent:bool = False, trunc:bool = False) -> mpf:
     """Computes gamma with N decimal digits, using level ell
     """
-    P = int(N * log(10) / log(2)) + 1
-    P_threshold = P + 10
-    P_max = P + 20
+    P_target = ceil((N + 1) * log(10, 2))
+    P_eps = P_target + min(ell, 10)
+    P_max = P_eps + 12
 
     mp.prec = P_max
+    current_prec = P_max
+    epsilon = mpf(2) ** -P_eps
 
     ell_m_one = ell - 1
     two_to_the_ell_m_one = 2 ** ell_m_one
@@ -37,16 +45,17 @@ def gamma_ell(N: int, ell: int = 8) -> None:
     m = 0
     two_to_the_m_p_one = 2
 
-    S = sum(mpf(1)/n for n in range(1, two_to_the_ell_m_one))
+    S = sum(mpf(1)/n for n in range(two_to_the_ell_m_one - 1, 0, -1))
     S -= (ell-1) * mp.log(mpf(2))
 
-    invpowers = [ 1/mpf(n) for n in range(two_to_the_ell_m_one, two_to_the_ell) ]
+    invpowers = [ 1/mpf(n) for n in range(two_to_the_ell - 1,
+                                          two_to_the_ell_m_one - 1,
+                                          -1)
+                 ]
 
     cms = [ 0 ]
     ems = [ 0 ]
 
-    current_prec = P_max
-    threshold = mpf(2) ** (-P_threshold)
 
     while True:
         m += 1
@@ -54,24 +63,29 @@ def gamma_ell(N: int, ell: int = 8) -> None:
 
         mp.prec = current_prec
 
-        i = 0
-        for n in range(two_to_the_ell_m_one, two_to_the_ell):
-            invpowers[i] /= n
-            i += 1
-
-        em = 0
-        bj = 1
-        for j in range(1, m ):  # e0 = 0 de toute façon
-            bj = bj * (m - j + 2) // j
-            em += mpf(bj) * ems[-j]
+        em = mpf(0)
+        binomj = 1  # binomial coefficients of type int
+        for j in range(1, m):  # e0 = 0 de toute façon
+            binomj = binomj * (m - j + 2) // j
+            em += mpf(binomj) * ems[-j]
 
         em += two_to_the_m_p_one
         em /= two_to_the_m_p_one - 2
         ems.append(em)
 
+        # keep inverse powers from smallest to largest
+        i = 0
+        for n in range(two_to_the_ell - 1,
+                       two_to_the_ell_m_one - 1,
+                       -1):
+            invpowers[i] /= n
+            i += 1
+
+        # would it be more efficient to use invpowers[::-1]
+        # and keep in ordering induced from natural numbers?
         cm = em / ( m + 1 ) * sum(x for x in invpowers)
 
-        if cm < threshold:
+        if cm < epsilon:
             break
 
         cms.append(cm)
@@ -80,26 +94,37 @@ def gamma_ell(N: int, ell: int = 8) -> None:
 
         S += (-1)**(m-1) * cm
 
+        # perhaps 30 binary digits is a bit overkill.
         current_prec = max(30, current_prec - ell_m_one)
         mp.prec = current_prec
 
     mp.prec = P_max
 
-    # Print results to stdout
-    print(f"ell is {ell}")
-    print(f"Last used: m = {m-1}, |cm| = {nstr(cms[-1], 4, strip_zeros=False)}")
-    print(f" not used: m = {m}, |cm| = {nstr(cm, 4, strip_zeros=False)}")
+    if not silent:
+        print(f"ell is {ell}")
+        print(f"Last used: m = {m-1}, |cm| = {nstr(cms[-1], 4, strip_zeros=False)}")
+        print(f" not used: m = {m}, |cm| = {nstr(cm, 4, strip_zeros=False)}")
 
-    # ATTENTION ! nstr supprime trailing zeros par défaut !!
-    S_string = nstr(S, N + 3, strip_zeros=False)
-    print(f"gamma = {S_string[:N+2]}({S_string[-3:]})")
+        # ATTENTION ! nstr supprime trailing zeros par défaut !!
+        S_string = nstr(S, N + 3, strip_zeros=False)
+        # print last digits + 3 more
+        print(f"Last digits are {S_string[-12:-3]}({S_string[-3:]})")
+
+        print(f"gamma {'truncated' if trunc else 'rounded'} "
+              f"to {N} significant figures is (as a string):")
+
+    if trunc:
+        # we hope this gives correct truncation...
+        return nstr(S, N + 6, strip_zeros=False)[:-6]
+    else:
+        return nstr(S, N, strip_zeros=False)
 
 
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 2:
-        gamma_ell(int(sys.argv[1]), int(sys.argv[2]))
+        print(gamma_ell(int(sys.argv[1]), int(sys.argv[2])))
     elif len(sys.argv) > 1:
-        gamma_ell(int(sys.argv[1]))
+        print(gamma_ell(int(sys.argv[1])))
     else:
         print("\ngamma_ell(N[,ell]) gives gamma to N decimal digits.  Default: ell=8")
