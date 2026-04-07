@@ -60,9 +60,11 @@ gamma rounded to 50 significant figures is (as a string):
 0.57721566490153286060651209008240243104215933593992
 ```
 
-The output is a string with `N` decimal digits.  If the optional parameter
-`silent` has not been set to `True`, then extra information is printed
-as one sees in the example, with 3 extra indicatvie decimal digits.
+The output is a string representing the decimal expansion either rounded or
+truncated to `N` decimal places, depending on optional boolean parameter
+`trunc` (default `False`, i.e., rounding).  If the optional parameter `silent`
+has not been set to `True`, then extra information is printed as one sees in
+the example, with 3 extra decimal digits.
 
 The file [`gamma_10000+3`](gamma_10000+3) contains the value of gamma which
 was obtained (after enough time for a long coffee break) from:
