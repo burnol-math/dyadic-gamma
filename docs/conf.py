@@ -21,8 +21,11 @@ master_doc = 'index'
 extensions = [
     'sphinx.ext.mathjax',
     'sphinx_math_dollar',
+    # 'sphinx.ext.todo',
     # 'myst_parser',
 ]
+
+# todo_include_todos = True
 
 # source_suffix = {
 #     '.rst': 'restructuredtext',
