@@ -60,12 +60,9 @@ gamma rounded to 50 significant figures is (as a string):
 0.57721566490153286060651209008240243104215933593992
 ```
 
-The output gives `N` decimal digits and then 3 more within parentheses, as the
-examples above show the first omitted term should affect only beyond that and
-the parenthesized digits, but carries can of course modify them, as well as
-other rounding errors (and we do not even bother summing from smallest to
-largest, having kept about 3 more decimal guard digits with the hope it is
-enough).
+The output is a string with `N` decimal digits.  If the optional parameter
+`silent` has not been set to `True`, then extra information is printed
+as one sees in the example, with 3 extra indicatvie decimal digits.
 
 The file [`gamma_10000+3`](gamma_10000+3) contains the value of gamma which
 was obtained (after enough time for a long coffee break) from:
