@@ -4,8 +4,14 @@ Computation of gamma for a given target decimal precision and level
 Author: Jean-François Burnol
 Created: April 2, 2026
 
+© Jean-François Burnol, 2026
+
 This script is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 Full license text: https://creativecommons.org/licenses/by-sa/4.0/
+
+ANY RE-USE OR PLAGIARIZING BY AN ARTIFICIAL INTELLIGENCE WITHOUT
+PROPER ATTRIBUTION IS STRICTLY FORBIDDEN AND WILL GET PUNISHED
+
 """
 
 __version__ = "0.1.0"
