@@ -27,8 +27,23 @@ __author__  = "Jean-François Burnol"
 from math import log, ceil
 from mpmath import mp, mpf, nstr
 
-def gamma_ell(N:int, ell:int = 8, silent:bool = False, trunc:bool = False) -> mpf:
+def gamma_ell(N:int,
+              ell:int = 8,
+              silent:bool = False,
+              trunc:bool = False) -> str:
     """Computes gamma with N decimal digits, using level ell
+
+    :param N int: requested number of decimal places
+    :param ell int: (optional, defaults to 8) the level ell
+    :param silent bool: (optional, defaults to False) whether to print
+                        some extra info
+    :param trunc bool: (optional, defaults to False) whether to round or
+                       truncate the return value
+    :rtype: str
+    :return: String with N significant figures of the decimal expansion
+             of Euler's constant, either rounded or truncated as per trunc
+             optional parameter.
+
     """
     P_target = ceil((N + 1) * log(10, 2))
     P_eps = P_target + min(ell, 10)
