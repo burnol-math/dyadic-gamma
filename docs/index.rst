@@ -77,24 +77,24 @@ of the reader.
 
    $ python gammaseries.py 50
    ell is 8
-   Last used: m = 24, |cm| = 2.527e-53
-    not used: m = 25, |cm| = 1.849e-55
+   Last used: m = 24, cm = -2.527e-53
+    not used: m = 25, cm = 1.849e-55
    Last digits are 933593992(360)
    gamma rounded to 50 significant figures is (as a string):
    0.57721566490153286060651209008240243104215933593992
 
    $ python gammaseries.py 50 4
    ell is 4
-   Last used: m = 55, |cm| = 3.021e-52
-    not used: m = 56, |cm| = 3.724e-53
+   Last used: m = 55, cm = 3.021e-52
+    not used: m = 56, cm = -3.724e-53
    Last digits are 933593992(363)
    gamma rounded to 50 significant figures is (as a string):
    0.57721566490153286060651209008240243104215933593992
 
    $ python gammaseries.py 200
    ell is 8
-   Last used: m = 95, |cm| = 7.198e-204
-    not used: m = 96, |cm| = 5.538e-206
+   Last used: m = 95, cm = 7.198e-204
+    not used: m = 96, cm = -5.538e-206
    Last digits are 824709491(601)
    gamma rounded to 200 significant figures is (as a string):
    0.57721566490153286060651209008240243104215933593992
@@ -107,8 +107,8 @@ of the reader.
    >>> from gammaseries import *
    >>> gamma_ell(400, trunc=True)
    ell is 8
-   Last used: m = 189, |cm| = 2.351e-402
-    not used: m = 190, |cm| = 1.824e-404
+   Last used: m = 189, cm = 2.351e-402
+    not used: m = 190, cm = -1.824e-404
    Last digits are 608893312(676)
    gamma truncated to 400 significant figures is (as a string):
    '0.57721566490153286060651209008240243104215933593992

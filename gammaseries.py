@@ -3,14 +3,19 @@ Computation of gamma for a given target decimal precision and level
 
 Author: Jean-François Burnol
 Created: April 2, 2026 v0.1.0
-This version: April 7, 2026 v0.2.0
+This version: April 8, 2026 v0.2.1
 
+0.2.0:
 - add silent and trunc booolean optional parameters,
 - return a string in place of printing it.
 
+0.2.1:
+- indicate explicitly the sign of the last used
+  and first non used coefficients.
+
 TODO: should I return an object of type mpf rather?
 
-© Jean-François Burnol, 2026
+© 2026 Jean-François Burnol
 
 This script is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 Full license text: https://creativecommons.org/licenses/by-sa/4.0/
@@ -20,8 +25,8 @@ PROPER ATTRIBUTION IS STRICTLY FORBIDDEN AND WILL GET PUNISHED
 
 """
 
-__version__ = "0.2.0"
-__date__    = "2026-04-07"
+__version__ = "0.2.1"
+__date__    = "2026-04-08"
 __author__  = "Jean-François Burnol"
 
 from math import log, ceil
@@ -57,9 +62,6 @@ def gamma_ell(N:int,
     two_to_the_ell_m_one = 2 ** ell_m_one
     two_to_the_ell = 2 * two_to_the_ell_m_one
 
-    m = 0
-    two_to_the_m_p_one = 2
-
     S = sum(mpf(1)/n for n in range(two_to_the_ell_m_one - 1, 0, -1))
     S -= (ell-1) * mp.log(mpf(2))
 
@@ -71,10 +73,14 @@ def gamma_ell(N:int,
     cms = [ 0 ]
     ems = [ 0 ]
 
+    m = 0
+    two_to_the_m_plus_one = 2
+    cmsign = -1
 
     while True:
         m += 1
-        two_to_the_m_p_one *= 2
+        two_to_the_m_plus_one *= 2
+        cmsign = -cmsign
 
         mp.prec = current_prec
 
@@ -84,8 +90,8 @@ def gamma_ell(N:int,
             binomj = binomj * (m - j + 2) // j
             em += mpf(binomj) * ems[-j]
 
-        em += two_to_the_m_p_one
-        em /= two_to_the_m_p_one - 2
+        em += two_to_the_m_plus_one
+        em /= two_to_the_m_plus_one - 2
         ems.append(em)
 
         # keep inverse powers from smallest to largest
@@ -103,13 +109,13 @@ def gamma_ell(N:int,
         if cm < epsilon:
             break
 
+        cm *= cmsign
         cms.append(cm)
 
         mp.prec = P_max
+        S += cm
 
-        S += (-1)**(m-1) * cm
-
-        # perhaps 30 binary digits is a bit overkill.
+        # 30 binary digits looks a bit excessive.
         current_prec = max(30, current_prec - ell_m_one)
         mp.prec = current_prec
 
@@ -117,8 +123,8 @@ def gamma_ell(N:int,
 
     if not silent:
         print(f"ell is {ell}")
-        print(f"Last used: m = {m-1}, |cm| = {nstr(cms[-1], 4, strip_zeros=False)}")
-        print(f" not used: m = {m}, |cm| = {nstr(cm, 4, strip_zeros=False)}")
+        print(f"Last used: m = {m-1}, cm = {nstr(cms[-1], 4, strip_zeros=False)}")
+        print(f" not used: m = {m}, cm = {nstr(cmsign * cm, 4, strip_zeros=False)}")
 
         # ATTENTION ! nstr supprime trailing zeros par défaut !!
         S_string = nstr(S, N + 3, strip_zeros=False)
@@ -142,4 +148,5 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1:
         print(gamma_ell(int(sys.argv[1])))
     else:
-        print("\ngamma_ell(N[,ell]) gives gamma to N decimal digits.  Default: ell=8")
+        print("\ngamma_ell(N[,ell]) gives gamma to N decimal digits. "
+              "Default: ell=8.\nIssue help(gamma_ell) for the other arguments.")
